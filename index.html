@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
+    <title>Permanent Flip Card | Professional Component</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* EXACT CSS STRUCTURE FROM TIMER EXAMPLE */
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --success: #4cc9f0;
+            --dark: #2b2d42;
+            --light: #f8f9fa;
+            --text: #333;
+            --border: #dee2e6;
+            --card-bg: #fff;
+            --section-bg: #f8f9fa;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--light);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+            flex: 1;
+        }
+
+        h1 {
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            text-align: center;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--success));
+            border-radius: 2px;
+        }
+
+        /* Original Flip Card Styles Integrated */
+        .flip-card {
+            background-color: transparent;
+            width: 350px;
+            height: 500px;
+            perspective: 1000px;
+            border-radius: 20px;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+        }
+
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .flip-card-front {
+            background: var(--card-bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid var(--border);
+        }
+
+        .flip-card-front img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .flip-card-front:hover img {
+            transform: scale(1.05);
+        }
+
+        .flip-card-back {
+            background: var(--card-bg);
+            transform: rotateY(180deg);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+
+        .flip-card-back h2 {
+            margin: 0 0 15px 0;
+            color: var(--dark);
+            font-size: 1.8em;
+            font-weight: 600;
+        }
+
+        .flip-card-back p {
+            color: var(--text);
+            line-height: 1.6;
+            font-size: 1.1em;
+            margin: 10px 0;
+        }
+
+        .decorative-line {
+            width: 50px;
+            height: 2px;
+            background: var(--border);
+            margin: 15px 0;
+        }
+
+        /* PRESERVED TIMER TEMPLATE COMPONENTS */
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .note {
+            background-color: #e7f5ff;
+            border-left: 4px solid var(--primary);
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .code-container {
+            position: relative;
+            background-color: #1a1c2e;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        /* Identical header/footer from timer */
+        header {
+            background-color: var(--dark);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 2rem 0 1.5rem;
+            margin-top: 3rem;
+        }
+
+        /* EXACT same responsive breakpoints */
+        @media (max-width: 768px) {
+            .flip-card {
+                width: 300px;
+                height: 450px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- IDENTICAL HEADER FROM TIMER -->
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-cube"></i>
+                <span>Flip Card Component</span>
+            </div>
+            <nav class="nav-links" id="navLinks">
+                <a href="#"><i class="fas fa-home"></i> Home</a>
+                <a href="#"><i class="fas fa-info-circle"></i> About</a>
+                <a href="#"><i class="fas fa-envelope"></i> Contact</a>
+            </nav>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- SAME MAIN CONTENT STRUCTURE -->
+    <div class="container">
+        <h1 class="fade-in">3D Flip Card Component</h1>
+        
+        <!-- IDENTICAL NOTE COMPONENT -->
+        <div class="note fade-in delay-1">
+            <h3><i class="fas fa-lightbulb"></i> Professional Tip</h3>
+            <p>This component uses CSS 3D transforms for realistic flipping effect.</p>
+        </div>
+
+        <!-- LIVE DEMO SECTION MATCHING TIMER -->
+        <section class="fade-in delay-1">
+            <h2><i class="fas fa-eye"></i> Live Demo</h2>
+            <div class="card">
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <img src="https://picsum.photos/id/237/350/500" alt="Demo Image">
+                        </div>
+                        <div class="flip-card-back">
+                            <h2>Faithful Companion</h2>
+                            <div class="decorative-line"></div>
+                            <p>This loyal friend will always greet you with the same cheerful expression.</p>
+                            <div class="decorative-line" style="margin-top: 20px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SAME CODE IMPLEMENTATION SECTION -->
+        <section class="fade-in delay-2">
+            <h2><i class="fas fa-code"></i> Implementation</h2>
+            <div class="card">
+                <div class="code-container">
+                    <div class="code-header">
+                        <span>flip-card.html</span>
+                        <button class="copy-btn" onclick="copyCode(this)">
+                            <i class="far fa-copy"></i> Copy Code
+                        </button>
+                    </div>
+                    <pre><code class="language-html">&lt;!-- Your original flip card code here --&gt;</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- IDENTICAL FOOTER -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Flip Card Component</h3>
+                    <p>A demonstration of CSS 3D transform capabilities.</p>
+                </div>
+                <div class="copyright">
+                    <p>&copy; 2024 Flip Card Demo. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- PRESERVED TIMER JAVASCRIPT -->
+    <script>
+        // Same copy functionality
+        function copyCode(button) {
+            const pre = button.closest('.code-container').querySelector('pre');
+            const range = document.createRange();
+            range.selectNode(pre);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+            document.execCommand('copy');
+            button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+            setTimeout(() => {
+                button.innerHTML = '<i class="far fa-copy"></i> Copy Code';
+            }, 2000);
+        }
+
+        // Same mobile menu logic
+        document.getElementById('mobileMenuToggle').addEventListener('click', () => {
+            document.getElementById('navLinks').classList.toggle('active');
+        });
+    </script>
+</body>
+</html>
